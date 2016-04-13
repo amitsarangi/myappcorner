@@ -2,15 +2,18 @@ package me.amitsarangi.myappcorner;
 
 import java.util.HashMap;
 
+import me.amitsarangi.myappcorner.components.MenuComponent;
+import me.amitsarangi.myappcorner.components.SceneWindow;
+
 import org.mt4j.AbstractMTApplication;
 import org.mt4j.MTApplication;
+import org.mt4j.components.MTComponent;
 import org.mt4j.components.TransformSpace;
 import org.mt4j.components.visibleComponents.shapes.MTRectangle;
 import org.mt4j.components.visibleComponents.shapes.MTRectangle.PositionAnchor;
 import org.mt4j.input.inputProcessors.IGestureEventListener;
 import org.mt4j.input.inputProcessors.MTGestureEvent;
 import org.mt4j.input.inputProcessors.componentProcessors.dragProcessor.DragEvent;
-import org.mt4j.input.inputProcessors.componentProcessors.dragProcessor.DragProcessor;
 import org.mt4j.input.inputProcessors.componentProcessors.dragProcessor.MultipleDragProcessor;
 import org.mt4j.input.inputProcessors.globalProcessors.CursorTracer;
 import org.mt4j.sceneManagement.AbstractScene;
@@ -18,6 +21,7 @@ import org.mt4j.util.MT4jSettings;
 import org.mt4j.util.MTColor;
 import org.mt4j.util.math.Vertex;
 import org.mt4j.util.opengl.GLFBO;
+import org.mt4jx.input.gestureAction.dnd.example.DnDScene;
 
 public class HomeScene extends AbstractScene {
 
@@ -43,8 +47,13 @@ public class HomeScene extends AbstractScene {
 		
 		this.selectionRectangles = new HashMap<Integer, MTRectangle>();
 
+		MTComponent backgroundLayer = new MTComponent(mtApplication);
+		final MTComponent windowLayer = new MTComponent(mtApplication);
+		MTComponent menuLayer = new MTComponent(mtApplication);
+		
+		
 		MTRectangle background = new MTRectangle(app,0.0F, 0.0F, MT4jSettings.getInstance().getWindowWidth(),  MT4jSettings.getInstance().getWindowHeight());
-		background.setFillColor(MTColor.WHITE);
+		background.setFillColor(new MTColor(236, 240, 241));
 		background.setNoStroke(true);
 		background.unregisterAllInputProcessors();		
 		background.registerInputProcessor(new MultipleDragProcessor(app));
@@ -59,7 +68,7 @@ public class HomeScene extends AbstractScene {
 				switch(de.getId())
 				{
 				case MTGestureEvent.GESTURE_STARTED:
-					rec = new MTRectangle(app, de.getDragCursor().getCurrentEvtPosX(), de.getDragCursor().getCurrentEvtPosY(), 1, 1);
+					rec = new MTRectangle(app, de.getDragCursor().getCurrentEvtPosX()-40, de.getDragCursor().getCurrentEvtPosY()-22.5F, 80,45 );
 					rec.setAnchor(PositionAnchor.UPPER_LEFT);
 					rec.unregisterAllInputProcessors();
 					rec.setFillColor(new MTColor(100, 150, 250, 55));
@@ -68,22 +77,31 @@ public class HomeScene extends AbstractScene {
 					rec.setDrawSmooth(true);
 					rec.setUseDirectGL(true);
 					rec.setLineStipple((short)0xBBBB);
-					getCanvas().addChild(rec);
+					windowLayer.addChild(rec);
 					selectionRectangles.put(dragId, rec);
 					break;
 				case MTGestureEvent.GESTURE_UPDATED:
 					rec = selectionRectangles.get(dragId);
 					Vertex[] vertices = rec.getVerticesGlobal();
+
+					//Making sure that it is only 1920x1080 ratio
+					float calcY = vertices[0].y + (de.getDragCursor().getCurrentEvtPosX()-vertices[0].x)*9/16;
 					vertices[1].setXYZ(de.getDragCursor().getCurrentEvtPosX(), vertices[0].y, vertices[1].z);
-					vertices[2].setXYZ(de.getDragCursor().getCurrentEvtPosX(), de.getDragCursor().getCurrentEvtPosY(), vertices[2].z);
-					vertices[3].setXYZ(vertices[0].x, de.getDragCursor().getCurrentEvtPosY(), vertices[3].z);
-					rec.setVertices(vertices);
+					vertices[2].setXYZ(de.getDragCursor().getCurrentEvtPosX(), calcY, vertices[2].z);
+					vertices[3].setXYZ(vertices[0].x, calcY, vertices[3].z);
+					
+					if(Math.abs(vertices[0].x - de.getDragCursor().getCurrentEvtPosX()) > 80  && Math.abs(vertices[0].x - de.getDragCursor().getCurrentEvtPosX()) > 45)
+					{
+						rec.setVertices(vertices);
+					}
+					
 
 					break;
 				case MTGestureEvent.GESTURE_ENDED:
 					rec = selectionRectangles.get(dragId);
-					getCanvas().removeChild(rec);
+					windowLayer.removeChild(rec);
 					selectionRectangles.remove(dragId);
+					windowLayer.addChild(new SceneWindow(rec.getPosition(TransformSpace.GLOBAL).x, rec.getPosition(TransformSpace.GLOBAL).y, rec.getWidthXY(TransformSpace.GLOBAL), rec.getHeightXY(TransformSpace.GLOBAL) , app));
 					break;
 				}
 
@@ -91,8 +109,23 @@ public class HomeScene extends AbstractScene {
 			}
 		});
 		
-		this.getCanvas().addChild(background);
+		this.getCanvas().addChild(backgroundLayer);
+		backgroundLayer.addChild(background);
+		this.getCanvas().addChild(windowLayer);
+		
+		this.getCanvas().addChild(menuLayer);
+		
+		getCanvas().setFrustumCulling(true); 
+		
 
+
+		
+		menuLayer.addChild(new MenuComponent(app, app.loadImage(this.getPathToIcons() + "water_s.png"), DnDScene.class, "Drag and drop Example"));
 	}
+	
+	private String getPathToIcons(){
+		return  "advanced" + AbstractMTApplication.separator + "mtShell" + AbstractMTApplication.separator + "data"+ AbstractMTApplication.separator + "images" + AbstractMTApplication.separator;
+	}
+
 
 }

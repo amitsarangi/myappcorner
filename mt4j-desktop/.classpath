@@ -30,11 +30,6 @@
 	<classpathentry kind="lib" path="extensions/lib/jbullet/jbullet.jar"/>
 	<classpathentry kind="lib" path="extensions/lib/jbullet/stack-alloc.jar"/>
 	<classpathentry kind="lib" path="extensions/lib/jbullet/vecmath.jar"/>
-	<classpathentry kind="lib" path="examples/advanced/flickrMT/lib/flickrj.jar"/>
-	<classpathentry kind="lib" path="examples/advanced/fluidSimulator/lib/MSAFluid.jar"/>
-	<classpathentry kind="lib" path="examples/advanced/modestMapsMT/lib/modestMaps.jar"/>
-	<classpathentry kind="lib" path="examples/advanced/physics/lib/jbox2d.jar"/>
-	<classpathentry kind="lib" path="examples/advanced/water/lib/waterScene.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/mt4j-core"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="/mt4j-core/lib/batik-css.jar"/>
@@ -55,5 +50,10 @@
 	<classpathentry kind="lib" path="lib/jogl/gluegen-rt.jar"/>
 	<classpathentry kind="lib" path="lib/joal/jlayer-1.0.1-libgdx.jar"/>
 	<classpathentry kind="lib" path="lib/joal/jorbis.jar"/>
+	<classpathentry kind="lib" path="E:/Dev/myAppCorner/mt4j-desktop/examples/advanced/flickrMT/lib/flickrj.jar"/>
+	<classpathentry kind="lib" path="E:/Dev/myAppCorner/mt4j-desktop/examples/advanced/fluidSimulator/lib/MSAFluid.jar"/>
+	<classpathentry kind="lib" path="E:/Dev/myAppCorner/mt4j-desktop/examples/advanced/modestMapsMT/lib/modestMaps.jar"/>
+	<classpathentry kind="lib" path="E:/Dev/myAppCorner/mt4j-desktop/examples/advanced/physics/lib/jbox2d.jar"/>
+	<classpathentry kind="lib" path="E:/Dev/myAppCorner/mt4j-desktop/examples/advanced/water/lib/waterScene.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
