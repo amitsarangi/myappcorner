@@ -8,6 +8,8 @@ In this paper, we present the design, development, testing and evaluation on MyA
 
 ### Installation
 
+Install Eclipse and import both mt4j-core and mt4j-desktop as eclipse project. In eclipse package explorer navigate to myappcorner/me/amitsarangi/myappcorner/startMyAppCorner.java. Right click on the file and run as Java Application.
+
 ### Demonstration
 [![MyAppCornet Demo](http://i.imgur.com/nfjPSh9.jpg)](http://www.youtube.com/watch?v=CDJrlWm9sa4 "MyAppCorner Demo")
 
@@ -18,3 +20,5 @@ MyAppCorner is a software made for a school project at University of Tampere for
 [Joy Saina](https://remote.com/joysaina) - UX  
 [Marc Belles Fabregat](https://remote.com/marcbelles-fabregat) - UX  
 
+P.S. Tested only on windows system
+P.P.S - This is build with an obsolete multitouch framework called MT4J- (Archived Home Page)[http://web.archive.org/web/20130925153019/http://www.mt4j.org/mediawiki/index.php/Main_Page]. It's a great framework as a starter to multitouch. So I have included all the examples in case someone wants to learn.
